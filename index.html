@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Bitcoin Price</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <header>
+            <h1>Live Bitcoin Price</h1>
+            <p id="btcPrice"></p>
+        </header>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <label for="intervalDropdown">Select Interval:</label>
+                <select id="intervalDropdown" class="form-control">
+                    <option value="1">1 minute</option>
+                    <option value="5">5 minutes</option>
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                    <option value="240">4 hours</option>
+                    <option value="360">6 hours</option>
+                    <option value="480">8 hours</option>
+                    <option value="720">12 hours</option>
+                    <option value="D">1 day</option>
+                    <option value="3D">3 days</option>
+                    <option value="W">1 week</option>
+                    <option value="M">1 month</option>
+                    <option value="12M">1 year</option>
+                    <!-- Add more interval options as needed -->
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="themeSwitch">Theme:</label>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="themeSwitch">
+                    <label class="custom-control-label" for="themeSwitch" id="themeLabel">Off</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="tradingview-widget-container mt-4">
+            <div id="tradingview_btcusdt"></div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="tradingview-chart.js"></script>
+    <script>
+        function updateBitcoinPriceEverySecond() {
+            fetchBitcoinPrice();
+            setInterval(fetchBitcoinPrice, 1000); // Fetch the price every 1 second (1000 milliseconds)
+        }
+
+        // Call the function from api.js to start updating Bitcoin price
+        updateBitcoinPriceEverySecond();
+        viewTradingView();
+
+        // Function to handle theme switch state
+        document.getElementById('themeSwitch').addEventListener('change', function () {
+            const themeLabel = document.getElementById('themeLabel');
+            if (this.checked) {
+                themeLabel.textContent = 'On';
+                // Change the theme to 'dark' when switch is turned on
+                // Replace the logic with your actual theme change implementation
+                viewTradingView();
+            } else {
+                themeLabel.textContent = 'Off';
+                // Change the theme back to 'light' when switch is turned off
+                // Replace the logic with your actual theme change implementation
+                viewTradingView();
+            }
+        });
+    </script>
+</body>
+</html>
